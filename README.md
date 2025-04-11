@@ -137,3 +137,5 @@ Maintains clean, documented, and testable APIs for frontend integration.
 Let’s build this hype machine. 🌀🔥
 
 > _"Not just an app. A vibe. A lifestyle."_ – Project X
+>
+> Minor change for PR testing!
