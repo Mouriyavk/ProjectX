@@ -1,0 +1,84 @@
+.App{
+  background-color:#fefefe;
+  height: 100%;
+  width: 100%;
+}
+/* #root {
+  margin: 0%;
+  padding: 0%;
+  width: 100%;
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0c0f15; 
+  color: white;
+}
+.namex{
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  position: absolute;
+  left: -1.2%;
+  top: 0%;
+}
+.namex h1{
+  width: 50%;
+  height: 20%;
+  position: absolute;
+  justify-content: center;
+  top: 10%;
+  left: 42%;
+  font-size: 390%;
+  color: rgb(18, 241, 219);
+}
+.namex h3{
+  width: 60%;
+  height: 40%;
+  position: absolute;
+  top: 26%;
+  left: 22.5%;
+  font-size: 140%;
+  text-align: center;
+}
+.namex a{
+  width: 15.5%;
+  height: 5%;
+  color: black;
+  position: absolute;
+  background-color: #18d77b;
+  padding: 0.7%;
+  border-radius: 0%;
+  text-decoration: none;
+  font-size: 155%;
+  left: 44%;
+  top: 47%;
+}
+.line{
+  width: 14%;
+  height: 0.7%;
+  position: absolute;
+  top: 75%;
+  left: 45%;
+  border-top-right-radius: 10%;
+  border-bottom-left-radius: 10%;
+  border-bottom-right-radius: 10%;
+  border-top-left-radius: 10%;
+  background-color:#18d77b ;
+}
+.namex one{
+  width: 55%;
+  height: 20%;
+  position: absolute;
+  top: 75%;
+  left: 25%;
+  text-align: center;
+}
+.namex two{
+  width: 55%;
+  height: 10%;
+  position: absolute;
+  bottom: 8.7%;
+  left: 23%;
+}  */
