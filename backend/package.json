@@ -1,21 +1,26 @@
 {
-  "name": "backend",
+  "name": "hype-circle-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend for Hype Circle XP system",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "express": "^5.1.0",
-    "xpress": "^2.4.6"
+    "@prisma/client": "^5.10.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.0.3",
+    "prisma": "^5.10.0"
   }
 }

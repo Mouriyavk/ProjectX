@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hype Circle Test Interface</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .circles-container {
+            width: 400px;
+            height: 400px;
+            position: relative;
+            margin: 20px auto;
+        }
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            border: 3px solid;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .inner-circle {
+            width: 200px;
+            height: 200px;
+            border-color: #FFD700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+        .middle-circle {
+            width: 300px;
+            height: 300px;
+            border-color: #C0C0C0;
+            background: rgba(192, 192, 192, 0.1);
+        }
+        .outer-circle {
+            width: 400px;
+            height: 400px;
+            border-color: #CD7F32;
+            background: rgba(205, 127, 50, 0.1);
+        }
+        .user-dot {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #2563eb; /* Blue-600 */
+            border: 2px solid #fff;
+            box-shadow: 0 0 8px #2563eb99;
+            z-index: 2;
+            transition: box-shadow 0.2s;
+        }
+        .user-label {
+            position: absolute;
+            color: #E9D5FF;
+            font-size: 12px;
+            transform: translate(-50%, -50%);
+            white-space: nowrap;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .action-button {
+            background: linear-gradient(45deg, #4f46e5, #7c3aed);
+            transition: all 0.3s ease;
+        }
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+        }
+        /* Custom select styles */
+        select {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            color: #E9D5FF !important;
+        }
+        select option {
+            background-color: #1a1a2e !important;
+            color: #E9D5FF !important;
+        }
+        /* Input field styles */
+        input {
+            color: #E9D5FF !important;
+        }
+        /* Loading state */
+        .loading {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        /* Success message */
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(16, 185, 129, 0.9);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            display: none;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen text-white">
+    <div class="success-message" id="successMessage">XP Updated Successfully!</div>
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Hype Circle Test Interface</h1>
+        
+        <!-- User Actions -->
+        <div class="glass-card rounded-xl p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-6 text-purple-300">User Actions</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-purple-200 mb-2">User ID</label>
+                    <input type="text" id="userId" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-purple-300/30 text-black focus:outline-none focus:border-purple-500" value="">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-purple-200 mb-2">Action Type</label>
+                    <select id="actionType" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-purple-300/30 text-purple-200 focus:outline-none focus:border-purple-500">
+                        <option value="EVENT_CREATION">Event Creation</option>
+                        <option value="CUSTOMIZATION">Customization</option>
+                        <option value="INVITE">Invite</option>
+                        <option value="CHAT_SHARE">Chat/Share</option>
+                        <option value="UPDATE">Update</option>
+                        <option value="TASK_COMPLETION">Task Completion</option>
+                        <option value="POST_EVENT_SHARE">Post Event Share</option>
+                        <option value="GOOD_REVIEW">Good Review</option>
+                        <option value="DAILY_STREAK">Daily Streak</option>
+                        <option value="EVENT_COMPLETION">Event Completion</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-purple-200 mb-2">Quantity</label>
+                    <input type="number" id="quantity" class="w-full px-4 py-2 rounded-lg bg-white/10 border border-purple-300/30 text-black focus:outline-none focus:border-purple-500" value="1" min="1">
+                </div>
+                <div class="flex items-end">
+                    <button onclick="updateXP()" id="updateButton" class="action-button text-white px-6 py-2 rounded-lg w-full">Update XP</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hype Circle Visualization -->
+        <div class="glass-card rounded-xl p-6 mb-8">
+            <h2 class="text-2xl font-semibold mb-6 text-purple-300">Hype Circle</h2>
+            <div class="circles-container">
+                <div class="circle outer-circle"></div>
+                <div class="circle middle-circle"></div>
+                <div class="circle inner-circle"></div>
+            </div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div class="glass-card rounded-xl p-6">
+            <h2 class="text-2xl font-semibold mb-6 text-purple-300">Leaderboard</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead>
+                        <tr class="text-left">
+                            <th class="px-6 py-3 text-purple-200">Rank</th>
+                            <th class="px-6 py-3 text-purple-200">User ID</th>
+                            <th class="px-6 py-3 text-purple-200">XP</th>
+                            <th class="px-6 py-3 text-purple-200">Circle</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody" class="divide-y divide-purple-300/20">
+                        <!-- Leaderboard data will be added here dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000';
+
+        function showSuccessMessage() {
+            const message = document.getElementById('successMessage');
+            message.style.display = 'block';
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 3000);
+        }
+
+        function setLoading(isLoading) {
+            const button = document.getElementById('updateButton');
+            if (isLoading) {
+                button.classList.add('loading');
+                button.textContent = 'Updating...';
+            } else {
+                button.classList.remove('loading');
+                button.textContent = 'Update XP';
+            }
+        }
+
+        async function updateXP() {
+            const userId = document.getElementById('userId').value;
+            const actionType = document.getElementById('actionType').value;
+            const quantity = parseInt(document.getElementById('quantity').value);
+
+            if (!userId) {
+                alert('Please enter a User ID');
+                return;
+            }
+
+            if (quantity < 1) {
+                alert('Quantity must be at least 1');
+                return;
+            }
+
+            setLoading(true);
+
+            try {
+                const response = await fetch(`${API_URL}/xp/update`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ userId, actionType, quantity }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to update XP');
+                }
+                
+                showSuccessMessage();
+                await getUserRank(userId);
+                await getLeaderboard();
+            } catch (error) {
+                console.error('Error:', error);
+                alert(error.message || 'Failed to update XP');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        async function getUserRank(userId) {
+            try {
+                const response = await fetch(`${API_URL}/xp/rank/${userId}`);
+                if (!response.ok) throw new Error('Failed to get user rank');
+                
+                const data = await response.json();
+                document.getElementById('userXP').textContent = data.xp;
+                document.getElementById('userPlacement').textContent = data.circlePlacement;
+                
+                updateCircleVisualization(data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function getLeaderboard() {
+            try {
+                const response = await fetch(`${API_URL}/xp/leaderboard`);
+                if (!response.ok) throw new Error('Failed to get leaderboard');
+                
+                const data = await response.json();
+                const tbody = document.getElementById('leaderboardBody');
+                tbody.innerHTML = '';
+
+                // Clear all existing dots and labels
+                const circlesContainer = document.querySelector('.circles-container');
+                const existingDots = circlesContainer.querySelectorAll('.user-dot, .user-label');
+                existingDots.forEach(dot => dot.remove());
+
+                const mainUserId = document.getElementById('userId').value;
+
+                data.forEach((user, index) => {
+                    // Add row to leaderboard
+                    const row = document.createElement('tr');
+                    row.className = 'hover:bg-white/5 transition-colors';
+                    row.innerHTML = `
+                        <td class="px-6 py-4 text-purple-200">${user.rank}</td>
+                        <td class="px-6 py-4 text-purple-200">${user.id}</td>
+                        <td class="px-6 py-4 text-purple-200">${user.xp}</td>
+                        <td class="px-6 py-4 text-purple-200">${user.circlePlacement}</td>
+                    `;
+                    tbody.appendChild(row);
+
+                    // Add dot for every user
+                    const dot = document.createElement('div');
+                    dot.className = 'user-dot' + (user.id === mainUserId ? ' main-user' : '');
+                    let radius;
+                    switch (user.circlePlacement) {
+                        case 'INNER':
+                            radius = 80;
+                            break;
+                        case 'MIDDLE':
+                            radius = 120;
+                            break;
+                        case 'OUTER':
+                            radius = 180;
+                            break;
+                        default:
+                            radius = 180;
+                    }
+                    const angle = (index * 45) % 360;
+                    const x = 200 + radius * Math.cos(angle * Math.PI / 180);
+                    const y = 200 + radius * Math.sin(angle * Math.PI / 180);
+                    dot.style.left = `${x}px`;
+                    dot.style.top = `${y}px`;
+                    circlesContainer.appendChild(dot);
+                    // Add user ID label
+                    const label = document.createElement('div');
+                    label.className = 'user-label';
+                    label.textContent = user.id;
+                    label.style.left = `${x}px`;
+                    label.style.top = `${y + 15}px`;
+                    circlesContainer.appendChild(label);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            const userId = document.getElementById('userId').value;
+            getUserRank(userId);
+            getLeaderboard();
+        });
+    </script>
+</body>
+</html> 
